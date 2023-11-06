@@ -100,7 +100,7 @@ jobs:
             "file4.dacpac" = "missing"
         }
 
-        $noneEquals = (Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()) -IncludeEqual)
+        $noneEquals = (Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()))
         $noneEquals | ForEach-Object { Write-Host "Difference: $(@($_.InputObject.key,$_.InputObject.value)) $($_.SideIndicator)" }
 
         if($noneEquals -ne $null){
