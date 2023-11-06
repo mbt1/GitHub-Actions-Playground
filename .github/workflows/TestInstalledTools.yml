@@ -56,7 +56,8 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
-          Get-ChildItem "C:\Program Files" -Filter "sqlpackage.exe"
+          Get-ChildItem -Recurse -Filter "sqlpackage.exe"
+        working-directory: C:\Program Files\
 
       - name: find vswhere.exe
         continue-on-error: true
