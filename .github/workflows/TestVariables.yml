@@ -34,6 +34,19 @@ jobs:
           $someOtherVar = "abc=12345;de f=67890;"
           echo "some_other_var = $someOtherVar" | Out-File -Append -FilePath $env:GITHUB_ENV
 
+      - name: List vars Pwsh
+        shell: pwsh
+        run: |
+          dir env:
+
+
+      - name: List vars sh
+        run: |
+          env
+          printv
+          set
+
+    
       - name: Check vars Pwsh
         shell: pwsh
         run: |
