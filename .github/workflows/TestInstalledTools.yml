@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Test Installed Tools
 
 # Controls when the workflow will run
 on:
@@ -25,26 +25,30 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: which vswhere.exe
+        continue-on-error: true
+        run: |
+          which vswhere.exe
+          
+      - name: which sqlpackage
+        continue-on-error: true
+        run: |
+          C:/ProgramData/Chocolatey/bin/vswhere.exe sqlpackage.exe
+
       - name: which sqlpackage
         continue-on-error: true
         run: |
           which sqlpackage
 
-      - name: which vswhere.exe
-        continue-on-error: true
-        run: |
-          which vswhere.exe
-
       - name: find sqlpackage
         continue-on-error: true
         run: |
-          find / -type f -iname "sqlpackage.exe"
-
+          find / -type f -name "sqlpackage.exe"
 
       - name: find vswhere.exe
         continue-on-error: true
         run: |
-          find / -type f -iname "vswhere.exe"
+          find / -type f -name "vswhere.exe"
   
   
     
