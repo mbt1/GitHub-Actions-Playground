@@ -59,6 +59,11 @@ jobs:
         $expectedDacpacs | Format-Table -AutoSize | Out-String | Write-Host
         Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
         
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+        Write-Host "Looking for .dacpac files in: $env:DACPACS_PATH"
+        Get-ChildItem -Path $env:DACPACS_PATH
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+
         # Get the list of actual .dacpac files from the directory
         $actualDacpacs = Get-ChildItem -Path $env.DACPACS_PATH -Filter *.dacpac | ForEach-Object { $_.Name }
 
