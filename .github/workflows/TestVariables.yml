@@ -82,3 +82,9 @@ jobs:
           sv: ${{ env.some_var }}
           sov: ${{ env.some_other_var }}
   
+      - name: what is GITHUB_OUTPUT
+        run: |
+
+          echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
+          echo $GITHUB_OUTPUT
+          echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
