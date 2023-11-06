@@ -63,7 +63,7 @@ jobs:
         Write-Host "Looking for .dacpac files in: $env:DACPACS_PATH"
         Get-ChildItem -Path $env:DACPACS_PATH | Format-List
         Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
-        $actualDacpacs = Get-ChildItem -Path $env.DACPACS_PATH -Filter *.dacpac | Format-List
+        Get-ChildItem -Path $env.DACPACS_PATH -Filter *.dacpac | Format-List
         Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
 
         # Get the list of actual .dacpac files from the directory
