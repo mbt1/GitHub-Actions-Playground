@@ -32,6 +32,12 @@ jobs:
           $someThirdVar = "frt=9374;oe s=92837;"
           echo "::set-output name=some_third_var::$someOtherVar"
 
+      - name: Set Vars bash
+        id: setvar02
+        run: |
+          $somevar="2349823948729384"
+          echo "something_var=$somevar" >> $GITHUB_OUTPUT
+
       - name: List vars Pwsh
         shell: pwsh
         run: |
@@ -91,6 +97,7 @@ jobs:
       some_var: ${{ steps.setvar01.outputs.some_var }}
       some_other_var: ${{ steps.setvar01.outputs.some_other_var }}
       some_third_var: ${{ steps.setvar01.outputs.some_third_var }}
+      something_var: ${{ steps.setvar02.outputs.something_var}}
 
   job2:
     runs-on: ubuntu-latest
@@ -103,10 +110,18 @@ jobs:
       - name: Check vars SH
         env:
           some_other_var: ${{needs.job1.outputs.some_other_var}}
+          something_var: ${{needs.job1.outputs.something_var}}
         run: |
 
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
           echo $some_var
           echo $some_other_var
           echo $some_third_var
+          echo $something_var
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
+
+      - name: Check env in SH
+        env:
+          some_other_var: ${{needs.job1.outputs.some_other_var}}
+          something_var: ${{needs.job1.outputs.something_var}}
+        run: env
