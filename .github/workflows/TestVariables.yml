@@ -13,19 +13,14 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  job1:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
 
       - name: Set Vars
+        id: setvar01
         shell: pwsh
         run: |
           $someVar = "oap=9876;sdf f=543;"
@@ -87,4 +82,25 @@ jobs:
 
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
           echo $GITHUB_OUTPUT
+          echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
+
+    outputs:
+      some_var: ${{ steps.setvar01.outputs.some_var }}
+      some_other_var: ${{ steps.setvar01.outputs.some_other_var }}
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: [job1]
+    env:
+      some_var: ${{needs.job1.outputs.some_var}}
+
+    steps:
+      - name: Check vars SH
+        env:
+          some_other_var: ${{needs.job1.outputs.some_other_var}}
+        run: |
+
+          echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
+          echo $some_var
+          echo $some_other_var
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
