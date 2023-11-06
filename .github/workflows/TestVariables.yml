@@ -42,7 +42,7 @@ jobs:
         shell: pwsh
         run: |
           dir env:
-
+ 
 
       - name: List vars sh
         run: |
@@ -80,6 +80,8 @@ jobs:
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
           echo $some_var
           echo $some_other_var
+          echo $some_third_var
+          echo $something_var
           echo "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   "
 
         env:
