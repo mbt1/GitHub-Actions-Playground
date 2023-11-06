@@ -41,10 +41,15 @@ jobs:
         run: |
           which vswhere.exe
           
+      - name: try vswhere.exe
+        continue-on-error: true
+        run: |
+           vswhere.exe -help
+          
       - name: vswhere sqlpackage
         continue-on-error: true
         run: |
-          C:/ProgramData/Chocolatey/bin/vswhere.exe -find "**\\SQLDB\\**\\SqlPackage.exe" -path "C:\\Program Files"
+          C:/ProgramData/Chocolatey/bin/vswhere.exe -find "**\\SQLDB\\**\\SqlPackage.exe"
         #   C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\SqlPackage.exe
 
       - name: which sqlpackage
