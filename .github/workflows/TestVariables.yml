@@ -39,8 +39,20 @@ jobs:
         run: |
 
           Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
-          Write-Host "some_var = $env:some_var";
-          Write-Host "some_other_var = $env:some_other_var";
+          Write-Host "$"+"env"+":"+"some_var = $env:some_var";
+          Write-Host "$"+"env"+":"+"some_other_var = $env:some_other_var";
+          Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+          Write-Host "$"+"Env"+":"+"some_var = $Env:some_var";
+          Write-Host "$"+"Env"+":"+"some_other_var = $Env:some_other_var";
+          Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+          Write-Host "$"+"ENV"+":"+"some_var = $ENV:some_var";
+          Write-Host "$"+"ENV"+":"+"some_other_var = $ENV:some_other_var";
+          Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+          Write-Host ""+"env"+":"+"some_var = env:some_var";
+          Write-Host ""+"env"+":"+"some_other_var = env:some_other_var";
+          Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+          Write-Host "$"+""+""+"some_var = $some_var";
+          Write-Host "$"+""+""+"some_other_var = $some_other_var";
           Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
 
         env:
