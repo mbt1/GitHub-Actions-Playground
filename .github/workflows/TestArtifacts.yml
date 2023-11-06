@@ -87,8 +87,10 @@ jobs:
         $results.GetEnumerator() | Format-Table -AutoSize | Out-String | Write-Host
         
         if ($nonMatchingFilesExist) {
-          Write-Error "There are missing or unexpected .dacpac files. Failing the job."
+          # Write-Error "There are missing or unexpected .dacpac files. Failing the job."
           # exit 1
+          Write-Host "Error detection code executed"
+          $errorDetectionExeuted = $true
         }
 
         $expectedResults = @{
@@ -104,5 +106,9 @@ jobs:
             $expectedResults |ft
             Write-Host "But got:"
             $results |ft
+            exit 1
+        }
+        if (!$errorDetectionExeuted){
+            Write-Error "Error Detection Code not executed!"
             exit 1
         }
