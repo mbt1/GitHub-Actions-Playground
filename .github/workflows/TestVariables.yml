@@ -27,7 +27,7 @@ jobs:
           echo "some_var=$someVar" >> $env:GITHUB_ENV
 
           $someOtherVar = "abc=12345;de f=67890;"
-          echo "some_other_var=$someOtherVar" | Out-File -Append -FilePath $env:GITHUB_ENV
+          "some_other_var=$someOtherVar" | Out-File -Append -FilePath $env:GITHUB_ENV
 
           $someThirdVar = "frt=9374;oe s=92837;"
           echo "::set-output name=some_third_var::$someOtherVar"
