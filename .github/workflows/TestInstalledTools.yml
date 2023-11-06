@@ -30,9 +30,12 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: |
-          Get-ChildItem -Recurse | Select-Object Mode, Owner, Group, Length, LastWriteTime, Name | ft
+            Write-Host "Listing contents of $(Get-Location)"
+            Get-ChildItem -Attributes !ReparsePoint | ForEach-Object {
+              Write-Host $_.FullName
+            }
         working-directory: C:\Program Files\
-          
+         
       - name: which vswhere.exe
         continue-on-error: true
         run: |
