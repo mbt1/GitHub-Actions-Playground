@@ -38,7 +38,7 @@ jobs:
     needs: [create]
     runs-on: ubuntu-latest
     env:
-        DACPAC_FILES: 'file1.dacpac, file2.dacpac, file3.dacpac' 
+        DACPAC_FILES: 'file1.dacpac, file2.dacpac, file4.dacpac' 
         DACPACS_PATH: ./dacpac_files
 
     steps:
