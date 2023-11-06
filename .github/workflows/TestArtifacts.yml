@@ -97,7 +97,7 @@ jobs:
             "file1.dacpac" = "match"
             "file2.dacpac" = "match"
             "file3.dacpac" = "unexpected"
-            "file4.dacpac" = "missing"
+            "file4.dacpac" = "missin"
         }
 
         $noneEquals = (Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()))
