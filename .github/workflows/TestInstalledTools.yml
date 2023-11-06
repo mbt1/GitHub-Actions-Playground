@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  locate:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -26,19 +26,23 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: which sqlpackage
+        continue-on-error: true
         run: |
           which sqlpackage
 
       - name: which vswhere.exe
+        continue-on-error: true
         run: |
           which vswhere.exe
 
       - name: find sqlpackage
+        continue-on-error: true
         run: |
           find / -type f -iname "sqlpackage.exe"
 
 
       - name: find vswhere.exe
+        continue-on-error: true
         run: |
           find / -type f -iname "vswhere.exe"
   
