@@ -23,19 +23,19 @@ jobs:
         id: setvar01
         shell: pwsh
         run: |
-          $someVar = "oap=9876;sdf f=543;"
+          $someVar = "some-var oap=9876;sdf f=543;"
           echo "some_var=$someVar" >> $env:GITHUB_ENV
 
-          $someOtherVar = "abc=12345;de f=67890;"
+          $someOtherVar = "some-other abc=12345;de f=67890;"
           "some_other_var=$someOtherVar" | Out-File -Append -FilePath $env:GITHUB_ENV
 
-          $someThirdVar = "frt=9374;oe s=92837;"
-          echo "::set-output name=some_third_var::$someOtherVar"
+          $someThirdVar = "some-thirdfrt=9374;oe s=92837;"
+          echo "::set-output name=some_third_var::$someThirdVar"
 
       - name: Set Vars bash
         id: setvar02
         run: |
-          somevar=2349823948729384
+          somevar="something-var 2349823948729384"
           echo "something_var=$somevar" >> $GITHUB_OUTPUT
 
       - name: List vars Pwsh
