@@ -100,8 +100,10 @@ jobs:
             "file4.dacpac" = "missing"
         }
 
-        Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()) -IncludeEqual
-        if((Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator())) -eq $null){
+        $noneEquals = (Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()) -IncludeEqual)
+        $noneEquals | ForEach-Object { Write-Host "Difference: $($_.InputObject)" }
+
+        if($noneEquals -ne $null){
             Write-Error "Results do not match expectation"
             Write-Host "Expected:"
             $expectedResults |ft
