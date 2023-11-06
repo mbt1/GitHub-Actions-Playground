@@ -1,0 +1,92 @@
+name: Test Artifacts
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  create:
+    name: create artifact
+    runs-on: ubuntu-latest
+    env:
+        DACPAC_FILES: 'file1.dacpac, file2.dacpac, file3.dacpac' 
+
+    steps:
+
+      - name: create artifact content
+        continue-on-error: true
+        shell: pwsh
+        run: |
+            $newDirPath = "./output"
+            $fileNames = $env:DACPAC_FILES -split "," | ForEach-Object { $_.Trim() }
+
+            $null = New-Item -Path $newDirPath -ItemType Directory -Force
+
+            foreach ($fileName in $fileNames) {
+                $filePath = Join-Path -Path $newDirPath -ChildPath $fileName
+                # Use Set-Content to create the file with initial content
+                "Some initial content" | Set-Content -Path $filePath
+            }
+
+      - name: Upload DACPAC as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+            name: dacpac
+            path: ./output/*.dacpac
+
+  consume:
+    name: consume artifact
+    needs: [create]
+    runs-on: ubuntu-latest
+    env:
+        DACPAC_FILES: 'file1.dacpac, file2.dacpac, file3.dacpac' 
+        DACPACS_PATH: ./dacpac_files
+
+    steps:
+
+    - name: Download DACPAC Artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: dacpac
+        path: ${{ env.DACPACS_PATH }}
+
+    - name: List File In Artifact
+      shell: pwsh
+      run: |
+        # Convert the comma-separated list of expected filenames into an array
+        $expectedDacpacs = $env:DACPAC_FILES -split "," | ForEach-Object { $_.Trim() }
+
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+        $expectedDacpacs | Format-Table -AutoSize | Out-String | Write-Host
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+        
+        # Get the list of actual .dacpac files from the directory
+        $actualDacpacs = Get-ChildItem -Path $env.DACPACS_PATH -Filter *.dacpac | ForEach-Object { $_.Name }
+
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+        $actualDacpacs | Format-Table -AutoSize | Out-String | Write-Host
+        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
+
+        $results = @{}
+        $nonMatchingFilesExist = $false
+        
+        foreach ($expected in $expectedDacpacs) {
+          if ($actualDacpacs -contains $expected) {
+            $results[$expected] = 'match'
+          } else {
+            $results[$expected] = 'missing'
+            $nonMatchingFilesExist = $true
+          }
+        }
+        foreach ($actual in $actualDacpacs) {
+          if ($expectedDacpacs -notcontains $actual) {
+            $results[$actual] = 'unexpected'
+            $nonMatchingFilesExist = $true
+          }
+        }
+
+        $results.GetEnumerator() | Format-Table -AutoSize | Out-String | Write-Host
+        
+        if ($nonMatchingFilesExist) {
+          Write-Error "There are missing or unexpected .dacpac files. Failing the job."
+          exit 1
+        }
