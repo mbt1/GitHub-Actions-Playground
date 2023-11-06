@@ -101,7 +101,7 @@ jobs:
         }
 
         $noneEquals = (Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator()) -IncludeEqual)
-        $noneEquals | ForEach-Object { Write-Host "Difference: $($_)" }
+        $noneEquals | ForEach-Object { Write-Host "Difference: $($_.InputObject.GetEnumerator())" }
 
         if($noneEquals -ne $null){
             Write-Error "Results do not match expectation"
