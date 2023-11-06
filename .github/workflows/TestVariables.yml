@@ -24,7 +24,7 @@ jobs:
         shell: pwsh
         run: |
           $someVar = "oap=9876;sdf f=543;"
-          echo "some_var=$someVar" | Out-File -Append -FilePath $env:GITHUB_ENV
+          echo "some_var=$someVar" >> $env:GITHUB_ENV
 
           $someOtherVar = "abc=12345;de f=67890;"
           echo "some_other_var=$someOtherVar" | Out-File -Append -FilePath $env:GITHUB_ENV
