@@ -59,13 +59,6 @@ jobs:
         $expectedDacpacs | Format-Table -AutoSize | Out-String | Write-Host
         Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
         
-        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
-        Write-Host "Looking for .dacpac files in: $env:DACPACS_PATH"
-        Get-ChildItem -Path "$env:DACPACS_PATH" | Format-List
-        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
-        Get-ChildItem -Path "$env:DACPACS_PATH" -Filter "*.dacpac" | Format-List
-        Write-Host "✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ✨   ";
-
         # Get the list of actual .dacpac files from the directory
         $actualDacpacs = Get-ChildItem -Path "$env:DACPACS_PATH" -Filter "*.dacpac" | ForEach-Object { $_.Name }
 
@@ -95,5 +88,21 @@ jobs:
         
         if ($nonMatchingFilesExist) {
           Write-Error "There are missing or unexpected .dacpac files. Failing the job."
-          exit 1
+          # exit 1
+        }
+
+        $expectedResults = @{
+            "file1.dacpac" = "match"
+            "file2.dacpac" = "match"
+            "file3.dacpac" = "unexpected"
+            "file4.dacpac" = "missing"
+        }
+
+        if ($results -ne $expectedResults){
+            Write-Error "Results do not match expectation"
+            Write-Host "Expected:"
+            $expectedResults |ft
+            Write-Host "But got:"
+            $results |ft
+            exit 1
         }
