@@ -16,7 +16,8 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  locate:
+  listPrograms:
+    name: Dir of C:/Program Files
     # The type of runner that the job will run on
     runs-on: windows-latest
 
@@ -35,7 +36,17 @@ jobs:
               Write-Host $_.FullName
             }
         working-directory: C:\Program Files\
-         
+
+  locate:
+    name: Find SqlPackage.exe
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
       - name: which vswhere.exe
         continue-on-error: true
         run: |
@@ -46,30 +57,5 @@ jobs:
         run: |
           vswhere.exe -find "**\\SQLDB\\**\\SqlPackage.exe"
         #   C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\SqlPackage.exe
-
-      - name: try vswhere.exe
-        continue-on-error: true
-        run: |
-           vswhere.exe -help
-
-      - name: which sqlpackage
-        continue-on-error: true
-        run: |
-          which sqlpackage
-
-      - name: find sqlpackage
-        continue-on-error: true
-        shell: pwsh
-        run: |
-          Get-ChildItem -Recurse -Filter "sqlpackage.exe" | ForEach-Object {
-            Write-Host $_.FullName
-          }
-        working-directory: C:\Program Files\
-
-      - name: find vswhere.exe
-        continue-on-error: true
-        run: |
-          find / -name "vswhere.exe"
-  
   
     
