@@ -33,7 +33,7 @@ jobs:
       - name: which sqlpackage
         continue-on-error: true
         run: |
-          C:/ProgramData/Chocolatey/bin/vswhere.exe sqlpackage.exe
+          C:/ProgramData/Chocolatey/bin/vswhere.exe -find "**\\SQLDB\\**\\SqlPackage.exe"
 
       - name: which sqlpackage
         continue-on-error: true
