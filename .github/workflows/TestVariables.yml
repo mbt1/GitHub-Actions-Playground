@@ -35,7 +35,7 @@ jobs:
       - name: Set Vars bash
         id: setvar02
         run: |
-          $somevar="2349823948729384"
+          somevar=2349823948729384
           echo "something_var=$somevar" >> $GITHUB_OUTPUT
 
       - name: List vars Pwsh
