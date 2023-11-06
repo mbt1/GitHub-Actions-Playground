@@ -25,6 +25,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+
+      - name: dir C:\Program Files
+        continue-on-error: true
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse | Select-Object Mode, Owner, Group, Length, LastWriteTime, Name | Format-List
+          working-directory: C:\Program Files\
+          
       - name: which vswhere.exe
         continue-on-error: true
         run: |
@@ -33,7 +41,7 @@ jobs:
       - name: vswhere sqlpackage
         continue-on-error: true
         run: |
-          C:/ProgramData/Chocolatey/bin/vswhere.exe -find "C:\\Program Files\\**\\SQLDB\\**\\SqlPackage.exe"
+          C:/ProgramData/Chocolatey/bin/vswhere.exe -find "C:\Program Files\**\SQLDB\**\SqlPackage.exe"
         #   C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\SqlPackage.exe
 
       - name: which sqlpackage
