@@ -100,7 +100,7 @@ jobs:
             "file4.dacpac" = "missing"
         }
 
-        if ($results -ne $expectedResults){
+        if((Compare-Object @($expectedResults.GetEnumerator()) @($results.GetEnumerator())) -eq $null){
             Write-Error "Results do not match expectation"
             Write-Host "Expected:"
             $expectedResults |ft
