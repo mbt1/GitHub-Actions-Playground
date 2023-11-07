@@ -1,0 +1,70 @@
+name: Test Output Variables
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - id: BashSet01
+        run: |
+          echo "v1s1j1=Bash New Way" >> $GITHUB_OUTPUT
+      - id: BashSet02
+        run: |
+          echo "::set-output name=v2s2j1::Bash Old Way"
+      - id: PwshSet01
+        run: |
+          echo "v3s3j1=Pwsh New Way >>GO" >> $GITHUB_OUTPUT
+      - id: PwshSet02
+        run: |
+          echo "v4s4j1=Pwsh New Way |OF" | Out-File -Append -Encoding utf8 -FilePath $env:GITHUB_ENV
+      - id: PwshSet03
+        run: |
+          echo "::set-output name=v5s5j1::Pwsh Old Way"
+      - id: env
+        run: env
+      - id: echo
+        run: |
+          echo -----------------------------------------------
+          echo "v1s1j1=$v1s1j1"
+          echo "v2s2j1=$v2s2j1"
+          echo "v3s3j1=$v3s3j1"
+          echo "v4s4j1=$v4s4j1"
+          echo "v5s5j1=$v5s5j1"
+          echo -----------------------------------------------
+    outputs:
+        v1s1j1g: ${{ steps.BashSet01.outputs.v1s1j1 }}
+        v2s2j1g: ${{ steps.BashSet02.outputs.v2s2j1 }}
+        v3s3j1g: ${{ steps.PwshSet01.outputs.v3s3j1 }}
+        v4s4j1g: ${{ steps.PwshSet02.outputs.v4s4j1 }}
+        v5s5j1g: ${{ steps.PwshSet03.outputs.v5s5j1 }}
+  job2:
+    runs-on: ubuntu-latest
+    env:
+      v1s1j1: ${{ needs.job1.outputs.v1s1j1g }}
+      v2s2j1: ${{ needs.job1.outputs.v2s2j1g }}
+      v3s3j1: ${{ needs.job1.outputs.v3s3j1g }}
+      v4s4j1: ${{ needs.job1.outputs.v4s4j1g }}
+      v5s5j1: ${{ needs.job1.outputs.v5s5j1g }}
+    steps:
+      - id: env
+        run: env
+      - id: echo
+        run: |
+          echo -----------------------------------------------
+          echo "v1s1j1=$v1s1j1"
+          echo "v2s2j1=$v2s2j1"
+          echo "v3s3j1=$v3s3j1"
+          echo "v4s4j1=$v4s4j1"
+          echo "v5s5j1=$v5s5j1"
+          echo -----------------------------------------------
+      - id: echog
+        run: |
+          echo -----------------------------------------------
+          echo "v1s1j1=${{ needs.job1.outputs.v1s1j1g }}"
+          echo "v2s2j1=${{ needs.job1.outputs.v2s2j1g }}"
+          echo "v3s3j1=${{ needs.job1.outputs.v3s3j1g }}"
+          echo "v4s4j1=${{ needs.job1.outputs.v4s4j1g }}"
+          echo "v5s5j1=${{ needs.job1.outputs.v5s5j1g }}"
+          echo -----------------------------------------------
