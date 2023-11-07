@@ -14,12 +14,15 @@ jobs:
         run: |
           echo "::set-output name=v2s2j1::Bash Old Way"
       - id: PwshSet01
+        shell: pwsh
         run: |
           echo "v3s3j1=Pwsh New Way >>GO" >> $GITHUB_OUTPUT
       - id: PwshSet02
+        shell: pwsh
         run: |
           echo "v4s4j1=Pwsh New Way |OF" | Out-File -Append -Encoding utf8 -FilePath $env:GITHUB_ENV
       - id: PwshSet03
+        shell: pwsh
         run: |
           echo "::set-output name=v5s5j1::Pwsh Old Way"
       - id: env
