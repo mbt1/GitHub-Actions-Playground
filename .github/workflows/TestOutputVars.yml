@@ -9,14 +9,14 @@ jobs:
     steps:
       - id: BashSet01
         run: |
-          echo "v1s1j1=Bash New Way" >> $GITHUB_OUTPUT
+          echo "v1s1j1=Bash New Way" >> $GITHUB_ENV
       - id: BashSet02
         run: |
           echo "::set-output name=v2s2j1::Bash Old Way"
       - id: PwshSet01
         shell: pwsh
         run: |
-          echo "v3s3j1=Pwsh New Way >>GO" >> $GITHUB_OUTPUT
+          echo "v3s3j1=Pwsh New Way >>GO" >> $GITHUB_ENV
       - id: PwshSet02
         shell: pwsh
         run: |
@@ -44,13 +44,56 @@ jobs:
         v5s5j1g: ${{ steps.PwshSet03.outputs.v5s5j1 }}
   job2:
     runs-on: ubuntu-latest
-    needs: [job1]
+    steps:
+      - id: BashSet01
+        run: |
+          echo "v1s1j2=Bash New Way" >> $GITHUB_OUTPUT
+      - id: BashSet02
+        run: |
+          echo "::set-output name=v2s2j2::Bash Old Way"
+      - id: PwshSet01
+        shell: pwsh
+        run: |
+          echo "v3s3j2=Pwsh New Way >>GO" >> $GITHUB_OUTPUT
+      - id: PwshSet02
+        shell: pwsh
+        run: |
+          echo "v4s4j2=Pwsh New Way |OF" | Out-File -Append -Encoding utf8 -FilePath $env:GITHUB_OUTPUT
+      - id: PwshSet03
+        shell: pwsh
+        run: |
+          echo "::set-output name=v5s5j2::Pwsh Old Way"
+      - id: env
+        run: env
+      - id: echo
+        run: |
+          echo -----------------------------------------------
+          echo "v1s1j2=$v1s1j2"
+          echo "v2s2j2=$v2s2j2"
+          echo "v3s3j2=$v3s3j2"
+          echo "v4s4j2=$v4s4j2"
+          echo "v5s5j2=$v5s5j2"
+          echo -----------------------------------------------
+    outputs:
+        v1s1j2g: ${{ steps.BashSet01.outputs.v1s1j2 }}
+        v2s2j2g: ${{ steps.BashSet02.outputs.v2s2j2 }}
+        v3s3j2g: ${{ steps.PwshSet01.outputs.v3s3j2 }}
+        v4s4j2g: ${{ steps.PwshSet02.outputs.v4s4j2 }}
+        v5s5j2g: ${{ steps.PwshSet03.outputs.v5s5j2 }}
+  job3:
+    runs-on: ubuntu-latest
+    needs: [job1,job2]
     env:
       v1s1j1: ${{ needs.job1.outputs.v1s1j1g }}
       v2s2j1: ${{ needs.job1.outputs.v2s2j1g }}
       v3s3j1: ${{ needs.job1.outputs.v3s3j1g }}
       v4s4j1: ${{ needs.job1.outputs.v4s4j1g }}
       v5s5j1: ${{ needs.job1.outputs.v5s5j1g }}
+      v1s1j2: ${{ needs.job2.outputs.v1s1j2g }}
+      v2s2j2: ${{ needs.job2.outputs.v2s2j2g }}
+      v3s3j2: ${{ needs.job2.outputs.v3s3j2g }}
+      v4s4j2: ${{ needs.job2.outputs.v4s4j2g }}
+      v5s5j2: ${{ needs.job2.outputs.v5s5j2g }}
     steps:
       - id: env
         run: env
@@ -63,6 +106,12 @@ jobs:
           echo "v4s4j1=$v4s4j1"
           echo "v5s5j1=$v5s5j1"
           echo -----------------------------------------------
+          echo "v1s1j2=$v1s1j2"
+          echo "v2s2j2=$v2s2j2"
+          echo "v3s3j2=$v3s3j2"
+          echo "v4s4j2=$v4s4j2"
+          echo "v5s5j2=$v5s5j2"
+          echo -----------------------------------------------
       - id: echog
         run: |
           echo -----------------------------------------------
@@ -71,4 +120,10 @@ jobs:
           echo "v3s3j1=${{ needs.job1.outputs.v3s3j1g }}"
           echo "v4s4j1=${{ needs.job1.outputs.v4s4j1g }}"
           echo "v5s5j1=${{ needs.job1.outputs.v5s5j1g }}"
+          echo -----------------------------------------------
+          echo "v1s1j2=${{ needs.job2.outputs.v1s1j2g }}"
+          echo "v2s2j2=${{ needs.job2.outputs.v2s2j2g }}"
+          echo "v3s3j2=${{ needs.job2.outputs.v3s3j2g }}"
+          echo "v4s4j2=${{ needs.job2.outputs.v4s4j2g }}"
+          echo "v5s5j2=${{ needs.job2.outputs.v5s5j2g }}"
           echo -----------------------------------------------
